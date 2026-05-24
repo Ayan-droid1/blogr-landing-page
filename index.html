@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blogr - A lightweight open source blogging platform. Start your blog today with Blogr's powerful, flexible writing tools." />
+  <title>Blogr | A Modern Publishing Platform</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;600&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== CSS RESET & VARIABLES ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cta-text: hsl(356, 100%, 66%);
+      --cta-hover-bg: hsl(355, 100%, 74%);
+      --headings-dark: hsl(208, 49%, 24%);
+      --white: hsl(0, 0%, 100%);
+      --footer-text: hsl(240, 2%, 79%);
+      --body-copy: hsl(207, 13%, 34%);
+      --footer-bg: hsl(240, 10%, 16%);
+      --grad-red-light: hsl(13, 100%, 72%);
+      --grad-red: hsl(353, 100%, 62%);
+      --grad-dark1: hsl(237, 17%, 21%);
+      --grad-dark2: hsl(237, 23%, 32%);
+      --font-overpass: 'Overpass', sans-serif;
+      --font-ubuntu: 'Ubuntu', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-overpass);
+      font-size: 16px;
+      color: var(--body-copy);
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; }
+    ul { list-style: none; }
+
+    /* ===== HEADER / HERO ===== */
+    .header {
+      background: linear-gradient(135deg, var(--grad-red-light), var(--grad-red));
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 600'%3E%3Ccircle cx='720' cy='600' r='700' fill='none' stroke='rgba(255,255,255,0.08)' stroke-width='2'/%3E%3Ccircle cx='720' cy='600' r='500' fill='none' stroke='rgba(255,255,255,0.06)' stroke-width='2'/%3E%3Ccircle cx='720' cy='600' r='300' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='2'/%3E%3C/svg%3E"),
+        linear-gradient(135deg, var(--grad-red-light), var(--grad-red));
+      background-size: cover, cover;
+      background-position: center bottom, center;
+      border-bottom-left-radius: 100px;
+      padding: 0 0 7rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ===== NAVBAR ===== */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3.5rem 10rem 3.5rem;
+      position: relative;
+      z-index: 100;
+    }
+
+    .nav__logo {
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1.75rem;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .nav__center {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav__dropdown {
+      position: relative;
+    }
+
+    .nav__dropdown-btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-family: var(--font-ubuntu);
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .nav__dropdown-btn:hover { opacity: 1; }
+
+    .nav__dropdown-btn svg {
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .nav__dropdown-btn.active svg { transform: rotate(180deg); }
+
+    .nav__dropdown-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 1rem);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--white);
+      border-radius: 8px;
+      padding: 1.5rem 1.75rem;
+      min-width: 160px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      z-index: 200;
+    }
+
+    .nav__dropdown-menu.open { display: block; animation: fadeDown 0.2s ease; }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .nav__dropdown-menu li + li { margin-top: 0.6rem; }
+
+    .nav__dropdown-menu a {
+      color: var(--headings-dark);
+      font-family: var(--font-ubuntu);
+      font-weight: 500;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: font-weight 0.1s;
+    }
+
+    .nav__dropdown-menu a:hover { font-weight: 700; }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-left: auto;
+    }
+
+    .nav__link {
+      color: var(--white);
+      font-family: var(--font-ubuntu);
+      font-weight: 500;
+      font-size: 1rem;
+      opacity: 0.85;
+      transition: opacity 0.2s;
+    }
+
+    .nav__link:hover { opacity: 1; }
+
+    .nav__btn {
+      background: var(--white);
+      color: var(--cta-text);
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .nav__btn:hover {
+      background: var(--cta-hover-bg);
+      color: var(--white);
+    }
+
+    /* Hamburger */
+    .nav__hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 300;
+    }
+
+    .nav__hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--white);
+      margin: 5px 0;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* Mobile nav overlay */
+    .nav__mobile {
+      display: none;
+      position: absolute;
+      top: calc(100% - 1rem);
+      left: 1.5rem;
+      right: 1.5rem;
+      background: var(--white);
+      border-radius: 8px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+      z-index: 200;
+      text-align: center;
+    }
+
+    .nav__mobile.open { display: block; animation: fadeDown2 0.25s ease; }
+
+    @keyframes fadeDown2 {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .nav__mobile-sep { height: 1px; background: var(--footer-text); opacity: 0.3; margin: 1.5rem 0; }
+
+    .nav__mobile-dropdown { margin-bottom: 1rem; }
+
+    .nav__mobile-dropdown-btn {
+      background: none;
+      border: none;
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--headings-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      width: 100%;
+      padding: 0.5rem 0;
+    }
+
+    .nav__mobile-dropdown-btn svg { transition: transform 0.3s; }
+    .nav__mobile-dropdown-btn.active svg { transform: rotate(180deg); }
+
+    .nav__mobile-sub {
+      display: none;
+      background: hsl(0, 0%, 95%);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .nav__mobile-sub.open { display: block; }
+
+    .nav__mobile-sub li + li { margin-top: 0.6rem; }
+
+    .nav__mobile-sub a {
+      color: var(--headings-dark);
+      font-family: var(--font-ubuntu);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .nav__mobile-links a {
+      display: block;
+      color: var(--headings-dark);
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 0.4rem 0;
+    }
+
+    .nav__mobile-btns { margin-top: 1.25rem; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+
+    .btn-outline-mobile {
+      color: var(--headings-dark);
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .btn-grad-mobile {
+      background: linear-gradient(135deg, var(--grad-red-light), var(--grad-red));
+      color: var(--white);
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.75rem 2.5rem;
+      border-radius: 50px;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      text-align: center;
+      padding: 5rem 1.5rem 2rem;
+      color: var(--white);
+    }
+
+    .hero h1 {
+      font-family: var(--font-overpass);
+      font-weight: 600;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero p {
+      font-family: var(--font-overpass);
+      font-weight: 300;
+      font-size: 1.15rem;
+      opacity: 0.9;
+      max-width: 550px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero__btns {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--white);
+      color: var(--cta-text);
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .btn-primary:hover {
+      background: var(--cta-hover-bg);
+      color: var(--white);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      border: 2px solid var(--white);
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .btn-outline:hover {
+      background: var(--white);
+      color: var(--cta-text);
+    }
+
+    /* ===== SECTION: FUTURE ===== */
+    .future {
+      padding: 7rem 10rem;
+      text-align: center;
+    }
+
+    .future h2 {
+      font-family: var(--font-overpass);
+      font-weight: 600;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      color: var(--headings-dark);
+      margin-bottom: 5rem;
+    }
+
+    .future__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      text-align: left;
+    }
+
+    .future__img-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SVG illustration placeholders */
+    .illus-editor {
+      width: 100%;
+      max-width: 500px;
+      height: 350px;
+      background: linear-gradient(135deg, #f0f4ff, #e8edf8);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .illus-editor::before {
+      content: '';
+      position: absolute;
+      top: 20px; left: 20px; right: 20px; bottom: 20px;
+      border: 2px solid rgba(0,0,0,0.06);
+      border-radius: 10px;
+    }
+
+    /* Decorative code lines */
+    .illus-editor::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60%; height: 60%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 18px,
+        rgba(var(--headings-dark-rgb, 30,60,90), 0.07) 18px,
+        rgba(30,60,90,0.07) 20px
+      );
+      border-radius: 8px;
+    }
+
+    .future__content h3 {
+      font-family: var(--font-overpass);
+      font-weight: 600;
+      font-size: 1.6rem;
+      color: var(--headings-dark);
+      margin-bottom: 1.25rem;
+    }
+
+    .future__content p {
+      font-family: var(--font-overpass);
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--body-copy);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ===== SECTION: STATE OF THE ART ===== */
+    .state {
+      background: linear-gradient(135deg, var(--grad-dark1), var(--grad-dark2));
+      border-top-right-radius: 100px;
+      border-bottom-left-radius: 100px;
+      padding: 7rem 10rem;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    /* Background circle decoration */
+    .state::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .state::after {
+      content: '';
+      position: absolute;
+      bottom: -300px;
+      right: -150px;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .state__img-wrap {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Phones illustration */
+    .illus-phones {
+      width: 100%;
+      max-width: 500px;
+      height: 380px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .phone-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .phone-card-lg {
+      width: 140px;
+      height: 280px;
+      transform: rotate(-5deg);
+    }
+
+    .phone-card-sm {
+      width: 110px;
+      height: 220px;
+      transform: rotate(5deg);
+      margin-top: 2rem;
+    }
+
+    .state__content { position: relative; z-index: 1; }
+
+    .state__content h2 {
+      font-family: var(--font-overpass);
+      font-weight: 600;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--white);
+      margin-bottom: 1.25rem;
+    }
+
+    .state__content p {
+      font-family: var(--font-overpass);
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ===== SECTION: INFRASTRUCTURE ===== */
+    .infra {
+      padding: 7rem 10rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .infra__content h2 {
+      font-family: var(--font-overpass);
+      font-weight: 600;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--headings-dark);
+      margin-bottom: 1.25rem;
+    }
+
+    .infra__content p {
+      font-family: var(--font-overpass);
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.9;
+      color: var(--body-copy);
+    }
+
+    .infra__img-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Laptop illustration */
+    .illus-laptop {
+      width: 100%;
+      max-width: 500px;
+      height: 340px;
+      background: linear-gradient(135deg, #f5f7ff, #eaecf5);
+      border-radius: 16px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .illus-laptop::before {
+      content: '';
+      position: absolute;
+      width: 70%;
+      height: 55%;
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .illus-laptop::after {
+      content: '< / >';
+      font-family: monospace;
+      font-size: 1.6rem;
+      color: var(--cta-text);
+      position: relative;
+      z-index: 1;
+      font-weight: 700;
+      letter-spacing: 4px;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--footer-bg);
+      border-top-right-radius: 100px;
+      padding: 4rem 10rem;
+      display: grid;
+      grid-template-columns: 1fr repeat(3, auto);
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .footer__logo {
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1.75rem;
+      color: var(--white);
+      margin-bottom: 0;
+    }
+
+    .footer__col h4 {
+      font-family: var(--font-ubuntu);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer__col li + li { margin-top: 0.6rem; }
+
+    .footer__col a {
+      font-family: var(--font-ubuntu);
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: var(--footer-text);
+      transition: color 0.2s;
+    }
+
+    .footer__col a:hover { color: var(--white); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .nav { padding: 3rem 4rem; }
+      .future { padding: 5rem 4rem; }
+      .state { padding: 5rem 4rem; }
+      .infra { padding: 5rem 4rem; }
+      .footer { padding: 4rem; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+    }
+
+    @media (max-width: 768px) {
+      /* Hide desktop nav, show hamburger */
+      .nav__center, .nav__right { display: none; }
+      .nav__hamburger { display: block; }
+      .nav { padding: 2rem 1.5rem; }
+
+      /* Hero */
+      .hero { padding: 3rem 1.5rem; }
+
+      /* Sections */
+      .future { padding: 4rem 1.5rem; }
+      .future__grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .future__img-wrap { order: -1; }
+
+      .state {
+        grid-template-columns: 1fr;
+        padding: 4rem 1.5rem;
+        text-align: center;
+        border-top-right-radius: 60px;
+        border-bottom-left-radius: 60px;
+      }
+
+      .infra {
+        grid-template-columns: 1fr;
+        padding: 4rem 1.5rem;
+        text-align: center;
+      }
+
+      .footer {
+        grid-template-columns: 1fr;
+        padding: 3.5rem 1.5rem;
+        text-align: center;
+        border-top-right-radius: 60px;
+        gap: 2rem;
+      }
+
+      .header { border-bottom-left-radius: 60px; }
+
+      .illus-phones { height: 260px; }
+      .phone-card-lg { width: 100px; height: 200px; }
+      .phone-card-sm { width: 80px; height: 160px; }
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <nav class="nav" aria-label="Main navigation">
+
+      <!-- Logo -->
+      <a href="#" class="nav__logo">Blogr</a>
+
+      <!-- Desktop center nav -->
+      <div class="nav__center">
+
+        <!-- Product dropdown -->
+        <div class="nav__dropdown">
+          <button class="nav__dropdown-btn" aria-expanded="false" aria-haspopup="true" data-dropdown="product">
+            Product
+            <svg width="10" height="7" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <ul class="nav__dropdown-menu" id="dropdown-product" role="menu">
+            <li><a href="#" role="menuitem">Overview</a></li>
+            <li><a href="#" role="menuitem">Pricing</a></li>
+            <li><a href="#" role="menuitem">Marketplace</a></li>
+            <li><a href="#" role="menuitem">Features</a></li>
+            <li><a href="#" role="menuitem">Integrations</a></li>
+          </ul>
+        </div>
+
+        <!-- Company dropdown -->
+        <div class="nav__dropdown">
+          <button class="nav__dropdown-btn" aria-expanded="false" aria-haspopup="true" data-dropdown="company">
+            Company
+            <svg width="10" height="7" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <ul class="nav__dropdown-menu" id="dropdown-company" role="menu">
+            <li><a href="#" role="menuitem">About</a></li>
+            <li><a href="#" role="menuitem">Team</a></li>
+            <li><a href="#" role="menuitem">Blog</a></li>
+            <li><a href="#" role="menuitem">Careers</a></li>
+          </ul>
+        </div>
+
+        <!-- Connect dropdown -->
+        <div class="nav__dropdown">
+          <button class="nav__dropdown-btn" aria-expanded="false" aria-haspopup="true" data-dropdown="connect">
+            Connect
+            <svg width="10" height="7" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <ul class="nav__dropdown-menu" id="dropdown-connect" role="menu">
+            <li><a href="#" role="menuitem">Contact</a></li>
+            <li><a href="#" role="menuitem">Newsletter</a></li>
+            <li><a href="#" role="menuitem">LinkedIn</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Desktop right nav -->
+      <div class="nav__right">
+        <a href="#" class="nav__link">Login</a>
+        <button class="nav__btn">Sign Up</button>
+      </div>
+
+      <!-- Hamburger (mobile) -->
+      <button class="nav__hamburger" aria-label="Toggle mobile menu" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Mobile nav -->
+      <div class="nav__mobile" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
+
+        <!-- Mobile dropdowns -->
+        <div class="nav__mobile-dropdown">
+          <button class="nav__mobile-dropdown-btn" data-mobile-dropdown="m-product">
+            Product
+            <svg width="10" height="7" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="hsl(208,49%,24%)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <ul class="nav__mobile-sub" id="m-product">
+            <li><a href="#">Overview</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Marketplace</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Integrations</a></li>
+          </ul>
+        </div>
+
+        <div class="nav__mobile-dropdown">
+          <button class="nav__mobile-dropdown-btn" data-mobile-dropdown="m-company">
+            Company
+            <svg width="10" height="7" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="hsl(208,49%,24%)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <ul class="nav__mobile-sub" id="m-company">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Team</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="nav__mobile-dropdown">
+          <button class="nav__mobile-dropdown-btn" data-mobile-dropdown="m-connect">
+            Connect
+            <svg width="10" height="7" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="hsl(208,49%,24%)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <ul class="nav__mobile-sub" id="m-connect">
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+
+        <div class="nav__mobile-sep"></div>
+
+        <div class="nav__mobile-links">
+          <a href="#">Login</a>
+        </div>
+
+        <div class="nav__mobile-btns">
+          <a href="#" class="btn-grad-mobile">Sign Up</a>
+        </div>
+
+      </div>
+    </nav>
+
+    <!-- Hero content -->
+    <div class="hero">
+      <h1>A modern publishing<br>platform</h1>
+      <p>Grow your audience and build your online brand whatever your level of experience</p>
+      <div class="hero__btns">
+        <button class="btn-primary">Start for Free</button>
+        <button class="btn-outline">Learn More</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main>
+
+    <!-- Section: Designed for the Future -->
+    <section class="future" aria-labelledby="future-heading">
+      <h2 id="future-heading" class="fade-in">Designed for the future</h2>
+
+      <div class="future__grid">
+        <!-- Left: Illustrations -->
+        <div class="future__img-wrap fade-in">
+          <div class="illus-editor" role="img" aria-label="Blog editor illustration"></div>
+        </div>
+
+        <!-- Right: Text content -->
+        <div class="future__content fade-in">
+          <article>
+            <h3>Introducing an extensible editor</h3>
+            <p>Blogr features an exceedingly intuitive interface which lets you focus on one thing: creating content. The editor supports management of multiple blogs and allows easy manipulation of embeds such as images, videos, and Markdown. Extensibility with web components means you can add anything.</p>
+          </article>
+          <article>
+            <h3>Robust content management</h3>
+            <p>Flexible content management enables users to easily move through posts. Increase the usability of your blog by adding customized categories, sections, format, or flow. With this functionality, you're in full control.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: State of the Art Infrastructure -->
+    <section class="state" aria-labelledby="state-heading">
+      <div class="state__img-wrap fade-in">
+        <div class="illus-phones" role="img" aria-label="Mobile app illustration">
+          <div class="phone-card phone-card-lg"></div>
+          <div class="phone-card phone-card-sm"></div>
+        </div>
+      </div>
+      <div class="state__content fade-in">
+        <h2 id="state-heading">State of the Art Infrastructure</h2>
+        <p>With reliability and speed in mind, worldwide data centers provide the backbone for ultra-fast connectivity. This ensures your site will load instantly, no matter where your readers are, keeping your site competitive.</p>
+      </div>
+    </section>
+
+    <!-- Section: Free, open, simple -->
+    <section class="infra" aria-labelledby="infra-heading">
+      <div class="infra__content fade-in">
+        <article>
+          <h2 id="infra-heading">Free, open, simple</h2>
+          <p>Blogr is a free and open source application backed by a large community of helpful developers. It supports features such as code syntax highlighting, RSS feeds, social media integration, third-party commenting tools, and works seamlessly with Google Analytics. The architecture is clean and is relatively easy to learn.</p>
+        </article>
+        <article style="margin-top: 2.5rem;">
+          <h2>Powerful tooling</h2>
+          <p>Batteries included. We built a simple and straightforward CLI tool that makes customization and deployment a breeze, but capable of producing even the most complicated sites.</p>
+        </article>
+      </div>
+      <div class="infra__img-wrap fade-in">
+        <div class="illus-laptop" role="img" aria-label="Code editor illustration"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" aria-label="Site footer">
+
+    <div>
+      <p class="footer__logo">Blogr</p>
+    </div>
+
+    <div class="footer__col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#">Overview</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Marketplace</a></li>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Integrations</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Team</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Newsletter</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ---- Desktop dropdown menus ----
+    const dropdownBtns = document.querySelectorAll('.nav__dropdown-btn');
+
+    dropdownBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-dropdown');
+        const menu = document.getElementById('dropdown-' + id);
+        const isOpen = menu.classList.contains('open');
+
+        // Close all first
+        closeAllDropdowns();
+
+        if (!isOpen) {
+          menu.classList.add('open');
+          btn.classList.add('active');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    function closeAllDropdowns() {
+      document.querySelectorAll('.nav__dropdown-menu').forEach(m => m.classList.remove('open'));
+      document.querySelectorAll('.nav__dropdown-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', () => closeAllDropdowns());
+
+    // ---- Hamburger / Mobile nav ----
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    let mobileOpen = false;
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      mobileOpen = !mobileOpen;
+      mobileNav.classList.toggle('open', mobileOpen);
+      hamburger.setAttribute('aria-label', mobileOpen ? 'Close menu' : 'Open menu');
+
+      // Animate hamburger to X
+      const spans = hamburger.querySelectorAll('span');
+      if (mobileOpen) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+      } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = '';
+      }
+    });
+
+    // Close mobile nav on outside click
+    document.addEventListener('click', (e) => {
+      if (mobileOpen && !mobileNav.contains(e.target) && e.target !== hamburger) {
+        mobileOpen = false;
+        mobileNav.classList.remove('open');
+        const spans = hamburger.querySelectorAll('span');
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = '';
+      }
+    });
+
+    // ---- Mobile sub-dropdowns ----
+    const mobileDropdownBtns = document.querySelectorAll('.nav__mobile-dropdown-btn');
+
+    mobileDropdownBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-mobile-dropdown');
+        const sub = document.getElementById(id);
+        const isOpen = sub.classList.contains('open');
+
+        // Close all mobile subs
+        document.querySelectorAll('.nav__mobile-sub').forEach(s => s.classList.remove('open'));
+        document.querySelectorAll('.nav__mobile-dropdown-btn').forEach(b => b.classList.remove('active'));
+
+        if (!isOpen) {
+          sub.classList.add('open');
+          btn.classList.add('active');
+        }
+      });
+    });
+
+    // ---- Scroll fade-in animation ----
+    const fadeEls = document.querySelectorAll('.fade-in');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    fadeEls.forEach(el => observer.observe(el));
+
+    // Trigger visible for elements already in viewport on load
+    window.addEventListener('load', () => {
+      fadeEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) el.classList.add('visible');
+      });
+    });
+  </script>
+
+</body>
+</html>
